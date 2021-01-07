@@ -1,0 +1,47 @@
+version: '2'
+services:
+    php: 
+        build:
+            context: ./bin/php
+        container_name: ${COMPOSE_PROJECT_NAME}-php
+        # restart: "always"
+        ports:
+            - 9000:9000
+        volumes:
+            - ./config/php/php.ini:/usr/local/etc/php/php.ini
+            - ./logs/php/php-fpm.log:/usr/local/var/log/php-fpm.log
+            - ./www:/var/www/html
+        networks:
+            - lemp
+    nginx:
+        build:
+            context: ./bin/nginx
+        container_name: ${COMPOSE_PROJECT_NAME}-nginx
+        # restart: "always"
+        ports:
+            - 80:80
+        links:
+            - "php"
+            - "database"
+        volumes:
+            - ./www:/var/www/html
+            - ./config/nginx:/etc/nginx/conf.d/
+            - ./logs/nginx:/var/log/nginx
+        networks:
+            - lemp
+    database:
+        build:
+            context: ./bin/mysql
+        container_name: ${COMPOSE_PROJECT_NAME}-mysql
+        # restart: "always"
+        ports:
+            - 33061:3306
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+        volumes:
+            - ./logs/mysql:/var/log/mysql
+        networks:
+            - lemp
+networks:
+    lemp:
