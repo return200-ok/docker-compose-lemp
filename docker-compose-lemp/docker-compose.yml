@@ -6,7 +6,7 @@ services:
         container_name: ${COMPOSE_PROJECT_NAME}-php
         # restart: "always"
         ports:
-            - 9000:9000
+            - 9001:9000
         volumes:
             - ./config/php/php.ini:/usr/local/etc/php/php.ini
             - ./logs/php/php-fpm.log:/usr/local/var/log/php-fpm.log

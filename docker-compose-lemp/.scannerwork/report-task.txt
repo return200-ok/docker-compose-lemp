@@ -1,0 +1,6 @@
+projectKey=xss-checker
+serverUrl=http://192.168.3.101:9001
+serverVersion=9.5.0.56709
+dashboardUrl=http://192.168.3.101:9001/dashboard?id=xss-checker
+ceTaskId=AYLopXHdYQPdxxIo4Ctg
+ceTaskUrl=http://192.168.3.101:9001/api/ce/task?id=AYLopXHdYQPdxxIo4Ctg

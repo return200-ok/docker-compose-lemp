@@ -1,20 +1,19 @@
 <?php
 
 $con = mysqli_connect("database", "root", "123456a@", "xss");
-session_start();
 
 if ($_POST) {
     $username = mysqli_real_escape_string($con, $_POST['username']);
     $password = mysqli_real_escape_string($con, $_POST['password']);
+    $name = mysqli_real_escape_string($con, $_POST['name']);
+    // $name = htmlspecialchars($name);
 
-    $sql = "SELECT id FROM user WHERE username = '$username' AND pass = '$password'";
-    $result = mysqli_query($con, $sql);
+    $sql = "INSERT INTO user(fullname, username, pass) VALUES('$name', '$username', '$password')";
 
-    if (mysqli_num_rows($result) == 1) {
-        $_SESSION['username'] = $username;
-        header("location: dashboard.php");
-    } else
-        $msg = "Invalid Username/Password";
+    if (mysqli_query($con, $sql)) {
+        echo "Created account. Please login";
+        $msg = "";
+    }
 } else {
     $msg = "";
 }
@@ -27,7 +26,7 @@ if ($_POST) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <title>Sign Up Page</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         .my-container {
@@ -41,11 +40,12 @@ if ($_POST) {
 <body>
     <div class="my-container">
         <form action method="POST">
+            <input class="form-control" type="text" placeholder="name" name="name" required /><br />
             <input class="form-control" type="text" placeholder="username" name="username" required /><br />
             <input class="form-control" type="password" placeholder="password" name="password" required /><br />
             <p class="text-danger small"><?php echo $msg; ?></p>
-            <button class="btn btn-secondary w-100">Login</button>
-            <p class="mt-3 small text-center">Don't have an account? <a href="signup.php">Signup</a></p>
+            <button class="btn btn-secondary w-100">Signup</button>
+            <p class="mt-3 small text-center">Already have an account? <a href="index.php">Login</a></p>
         </form>
     </div>
 </body>
